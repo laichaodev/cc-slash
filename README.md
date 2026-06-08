@@ -1,6 +1,6 @@
 # Claude Code 内置命令完整汇总
 
-> 当前版本：**v2.1.160** (2026-06-02)
+> 当前版本：**v2.1.168** (2026-06-08)
 > 来源：[Claude Code Commands](https://code.claude.com/docs/en/commands)
 
 ---
@@ -25,15 +25,16 @@
 
 | 命令 | 类型 | 功能 |
 |---|---|---|
-| `/clear [name]` | 内置 | 清空上下文，开始新对话（旧对话保留在 `/resume`） |
+| `/clear [name]` | 内置 | 清空上下文，开始新对话（旧对话保留在 `/resume`）。别名: `/reset` `/new` |
 | `/compact [instructions]` | 内置 | 压缩对话历史，释放 token 空间 |
 | `/context [all]` | 内置 | 可视化上下文用量（彩色网格），显示优化建议 |
-| `/resume [session]` | 内置 | 恢复之前的会话（按 ID/名称/PR URL） |
+| `/resume [session]` | 内置 | 恢复之前的会话（按 ID/名称/PR URL）。别名: `/continue` |
 | `/branch [name]` | 内置 | 分支当前对话，保留原会话 |
-| `/background [prompt]` | 内置 | 将会话转为后台 agent 运行 |
+| `/fork <directive>` | 内置 | 派生后台子 agent，继承完整对话处理任务（≥v2.1.161） |
+| `/background [prompt]` | 内置 | 将会话转为后台 agent 运行（别名: `/bg`） |
 | `/stop` | 内置 | 停止当前后台会话 |
 | `/rename [name]` | 内置 | 重命名当前会话 |
-| `/rewind` | 内置 | 回退对话/代码到检查点 |
+| `/rewind` | 内置 | 回退对话/代码到检查点。别名: `/checkpoint` `/undo` |
 | `/recap` | 内置 | 生成当前会话一行摘要 |
 | `/export [filename]` | 内置 | 导出对话为纯文本 |
 | `/copy [N]` | 内置 | 复制最近回复到剪贴板 |
@@ -48,7 +49,7 @@
 | `/plan [description]` | 内置 | 进入计划模式 |
 | `/ultraplan <prompt>` | 内置 | 云端并行规划 |
 | `/goal [condition\|clear]` | 内置 | 跨轮次自动完成目标 |
-| `/exit` | 内置 | 退出 CLI（后台会话中则 detach） |
+| `/exit` | 内置 | 退出 CLI（后台会话中则 detach）。别名: `/quit` |
 
 ## 代码审查
 
@@ -66,8 +67,8 @@
 | 命令 | 类型 | 功能 |
 |---|---|---|
 | `/init` | 内置 | 生成项目 CLAUDE.md |
-| `/config` | 内置 | 打开设置界面（主题、模型、输出风格等） |
-| `/permissions` | 内置 | 管理工具权限规则（allow/ask/deny） |
+| `/config` | 内置 | 打开设置界面（主题、模型、输出风格等）。别名: `/settings` |
+| `/permissions` | 内置 | 管理工具权限规则（allow/ask/deny）。别名: `/allowed-tools` |
 | `/memory` | 内置 | 编辑 CLAUDE.md 记忆文件，管理自动记忆 |
 | `/add-dir <path>` | 内置 | 添加额外工作目录 |
 | `/mcp` | 内置 | 管理 MCP 服务器连接和 OAuth |
@@ -92,15 +93,15 @@
 
 | 命令 | 类型 | 功能 |
 |---|---|---|
-| `/tasks` | 内置 | 列出和管理后台任务 |
+| `/tasks` | 内置 | 列出和管理后台任务。别名: `/bashes` |
 | `/workflows` | 内置 | 查看 Dynamic Workflow 运行（≥v2.1.154） |
 | `/batch <instruction>` | Bundled Skill | 批量修改：分解为 5-30 个独立单元，并行执行，各自 PR |
-| `/loop [interval] [prompt]` | Bundled Skill | 定时重复执行 |
+| `/loop [interval] [prompt]` | Bundled Skill | 定时重复执行。别名: `/proactive` |
 | `/autofix-pr [prompt]` | Bundled Skill | 监听 PR 的 CI 失败/评论，自动推送修复 |
 | `/run` | Bundled Skill | 启动并驱动项目应用（≥v2.1.145） |
 | `/verify` | Bundled Skill | 构建→运行→观察，确认代码生效（≥v2.1.145） |
 | `/run-skill-generator` | Bundled Skill | 为项目编写 `/run` / `/verify` 的启动脚本 |
-| `/schedule [description]` | 内置 | 创建云端定时任务 |
+| `/schedule [description]` | 内置 | 创建云端定时任务。别名: `/routines` |
 
 ## 工具与诊断
 
@@ -108,13 +109,13 @@
 |---|---|---|
 | `/doctor` | 内置 | 诊断安装和配置问题（按 `f` 自动修复） |
 | `/debug [description]` | 内置 | 启用调试日志，分析会话问题 |
-| `/usage` | 内置 | 会话费用、用量上限、分类统计 |
-| `/usage-credits` | 内置 | 配置用量点数 |
+| `/usage` | 内置 | 会话费用、用量上限、分类统计。别名: `/cost` `/stats` |
+| `/usage-credits` | 内置 | 配置用量点数（旧称 `/extra-usage`） |
 | `/insights` | 内置 | 分析会话模式的报告 |
 | `/heapdump` | 内置 | JS 堆快照用于诊断高内存 |
 | `/help` | 内置 | 显示帮助和可用命令 |
 | `/release-notes` | 内置 | 查看 changelog（交互式版本选择器） |
-| `/feedback [report]` | 内置 | 提交反馈、报告 bug、分享对话 |
+| `/feedback [report]` | 内置 | 提交反馈、报告 bug、分享对话。别名: `/bug` `/share` |
 | `/status` | 内置 | 显示版本、模型、账号、连接状态 |
 
 ## AI/API 开发
@@ -144,14 +145,14 @@
 | `/setup-bedrock` | 内置 | 配置 Amazon Bedrock |
 | `/setup-vertex` | 内置 | 配置 Google Vertex AI |
 | `/chrome` | 内置 | 配置 Claude in Chrome |
-| `/remote-control` | 内置 | 开启远程控制（从 claude.ai 继续） |
+| `/remote-control` | 内置 | 开启远程控制（从 claude.ai 继续）。别名: `/rc` |
 | `/remote-env` | 内置 | 配置 Web 会话远程环境 |
-| `/teleport` | 内置 | 拉取 Web 会话到终端 |
-| `/desktop` | 内置 | 转到 Claude Code Desktop 应用 |
+| `/teleport` | 内置 | 拉取 Web 会话到终端。别名: `/tp` |
+| `/desktop` | 内置 | 转到 Claude Code Desktop 应用。别名: `/app` |
 | `/web-setup` | 内置 | 连接 GitHub 到 Claude Code Web |
 | `/install-github-app` | 内置 | 安装 Claude GitHub Actions |
 | `/install-slack-app` | 内置 | 安装 Claude Slack App |
-| `/mobile` | 内置 | 显示移动端下载二维码 |
+| `/mobile` | 内置 | 显示移动端下载二维码。别名: `/ios` `/android` |
 
 ## 其他
 
@@ -173,7 +174,7 @@
 ## 命令分类速查
 
 ```
-SESSION   /clear /compact /context /resume /branch /background /stop /rename /rewind /recap /export /copy
+SESSION   /clear /compact /context /resume /branch /fork /background /stop /rename /rewind /recap /export /copy
 MODEL     /model /effort /fast /plan /ultraplan /goal /exit
 REVIEW    /code-review /simplify /review /security-review /diff /ultrareview
 RUN       /run /verify /run-skill-generator
@@ -203,10 +204,10 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 
 | 分类 | 数量 |
 |---|---|
-| 硬编码内置命令 | ~65 |
+| 硬编码内置命令 | ~68 |
 | Bundled Skill | ~12 |
 | Bundled Workflow | 1 |
-| **合计** | **~78** |
+| **合计** | **~81** |
 
 ## 命令发布时间线
 
@@ -224,4 +225,4 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 | 2026.02 (v2.1.63) | **`/batch`** **`/simplify`** |
 | 2026.04 (v2.1.108+) | `/recap` **`/fewer-permission-prompts`** `/ultrareview` |
 | 2026.05 (v2.1.139+) | **`/goal`** `/scroll-speed` **`/run`** **`/verify`** **`/code-review`** `/reload-skills` **`/workflows`** |
-| 2026.06 (v2.1.160) | `/effort`（新增 `ultracode` 级别） |
+| 2026.06 (v2.1.160+) | `/effort`（新增 `ultracode` 级别）、**`/fork`**（独立命令，不再是 `/branch` 别名）、`/stats` `/cost` `/bg` `/proactive` 等别名 |
