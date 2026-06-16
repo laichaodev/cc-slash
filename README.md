@@ -1,6 +1,6 @@
 # Claude Code 内置命令完整汇总
 
-> 当前版本：**v2.1.168** (2026-06-08)
+> 当前版本：**v2.1.178** (2026-06-16)
 > 来源：[Claude Code Commands](https://code.claude.com/docs/en/commands)
 
 ---
@@ -34,6 +34,7 @@
 | `/background [prompt]` | 内置 | 将会话转为后台 agent 运行（别名: `/bg`） |
 | `/stop` | 内置 | 停止当前后台会话 |
 | `/rename [name]` | 内置 | 重命名当前会话 |
+| `/cd <path>` | 内置 | 移动会话到新工作目录，保留对话缓存（≥v2.1.169） |
 | `/rewind` | 内置 | 回退对话/代码到检查点。别名: `/checkpoint` `/undo` |
 | `/recap` | 内置 | 生成当前会话一行摘要 |
 | `/export [filename]` | 内置 | 导出对话为纯文本 |
@@ -45,6 +46,7 @@
 |---|---|---|
 | `/model [model]` | 内置 | 切换模型（`s` 当前会话 / `d` 全局默认） |
 | `/effort [level\|auto]` | 内置 | 推理力度：`low` `medium` `high` `xhigh` `max` `ultracode` |
+| `/advisor [model\|off]` | 内置 | 启用顾问模型（`opus`/`sonnet`/`fable`），关键时刻提供建议（≥v2.1.170） |
 | `/fast [on\|off]` | 内置 | 切换快速模式 |
 | `/plan [description]` | 内置 | 进入计划模式 |
 | `/ultraplan <prompt>` | 内置 | 云端并行规划 |
@@ -71,7 +73,7 @@
 | `/permissions` | 内置 | 管理工具权限规则（allow/ask/deny）。别名: `/allowed-tools` |
 | `/memory` | 内置 | 编辑 CLAUDE.md 记忆文件，管理自动记忆 |
 | `/add-dir <path>` | 内置 | 添加额外工作目录 |
-| `/mcp` | 内置 | 管理 MCP 服务器连接和 OAuth |
+| `/mcp [reconnect\|enable\|disable]` | 内置 | 管理 MCP 服务器连接和 OAuth；支持 `reconnect <server>` `enable/disable [server\|all]` |
 | `/agents` | 内置 | 管理 subagent 配置 |
 | `/skills` | 内置 | 列出可用 skill（`t` 按 token 排序） |
 | `/hooks` | 内置 | 查看 hook 配置 |
@@ -174,8 +176,8 @@
 ## 命令分类速查
 
 ```
-SESSION   /clear /compact /context /resume /branch /fork /background /stop /rename /rewind /recap /export /copy
-MODEL     /model /effort /fast /plan /ultraplan /goal /exit
+SESSION   /clear /compact /context /resume /branch /fork /background /stop /rename /cd /rewind /recap /export /copy
+MODEL     /model /effort /advisor /fast /plan /ultraplan /goal /exit
 REVIEW    /code-review /simplify /review /security-review /diff /ultrareview
 RUN       /run /verify /run-skill-generator
 CONFIG    /init /config /permissions /memory /add-dir /mcp /agents /skills /hooks /ide
@@ -204,10 +206,10 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 
 | 分类 | 数量 |
 |---|---|
-| 硬编码内置命令 | ~68 |
+| 硬编码内置命令 | ~70 |
 | Bundled Skill | ~12 |
 | Bundled Workflow | 1 |
-| **合计** | **~81** |
+| **合计** | **~83** |
 
 ## 命令发布时间线
 
@@ -225,4 +227,4 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 | 2026.02 (v2.1.63) | **`/batch`** **`/simplify`** |
 | 2026.04 (v2.1.108+) | `/recap` **`/fewer-permission-prompts`** `/ultrareview` |
 | 2026.05 (v2.1.139+) | **`/goal`** `/scroll-speed` **`/run`** **`/verify`** **`/code-review`** `/reload-skills` **`/workflows`** |
-| 2026.06 (v2.1.160+) | `/effort`（新增 `ultracode` 级别）、**`/fork`**（独立命令，不再是 `/branch` 别名）、`/stats` `/cost` `/bg` `/proactive` 等别名 |
+| 2026.06 (v2.1.160+) | `/effort`（新增 `ultracode` 级别）、**`/fork`**（独立命令）、**`/cd`**（移动工作目录）、**`/advisor`**（顾问模型，v2.1.170 支持 `fable`）、`/stats` `/cost` `/bg` `/proactive` 等别名 |
