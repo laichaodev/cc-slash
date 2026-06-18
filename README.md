@@ -1,6 +1,6 @@
 # Claude Code 内置命令完整汇总
 
-> 当前版本：**v2.1.178** (2026-06-16)
+> 当前版本：**v2.1.181** (2026-06-19)
 > 来源：[Claude Code Commands](https://code.claude.com/docs/en/commands)
 
 ---
@@ -45,7 +45,7 @@
 | 命令 | 类型 | 功能 |
 |---|---|---|
 | `/model [model]` | 内置 | 切换模型（`s` 当前会话 / `d` 全局默认） |
-| `/effort [level\|auto]` | 内置 | 推理力度：`low` `medium` `high` `xhigh` `max` `ultracode` |
+| `/effort [level\|auto]` | 内置 | 推理力度：`low` `medium` `high` `xhigh` `max` `ultracode`（xhigh + 自动 workflow 编排） |
 | `/advisor [model\|off]` | 内置 | 启用顾问模型（`opus`/`sonnet`/`fable`），关键时刻提供建议（≥v2.1.170） |
 | `/fast [on\|off]` | 内置 | 切换快速模式 |
 | `/plan [description]` | 内置 | 进入计划模式 |
@@ -60,8 +60,8 @@
 | `/review [PR]` | 内置 | 本地审查 Pull Request |
 | `/security-review` | 内置 | 安全审查：扫描 diff 找注入、认证、数据泄露等漏洞 |
 | `/diff` | 内置 | 交互式 diff 查看器（键盘滚动） |
-| `/code-review [level] [--fix] [--comment]` | Bundled Skill | 审查 diff：bug + 复用/简化/效率；`ultra` 云端审查 |
-| `/simplify [target]` | Bundled Skill | 仅清理优化（不查 bug），自动修复 |
+| `/code-review [level] [--fix] [--comment] [target]` | Bundled Skill | 审查 diff：bug + 复用/简化/效率；`ultra` 云端审查；可指定路径或 PR |
+| `/simplify [target]` | Bundled Skill | 仅清理优化（不查 bug），自动修复；可指定路径或 PR（≥v2.1.154） |
 | `/ultrareview [PR]` | 内置 | `/code-review ultra` 的别名 |
 
 ## 项目配置
@@ -69,7 +69,7 @@
 | 命令 | 类型 | 功能 |
 |---|---|---|
 | `/init` | 内置 | 生成项目 CLAUDE.md |
-| `/config` | 内置 | 打开设置界面（主题、模型、输出风格等）。别名: `/settings` |
+| `/config [key=value]` | 内置 | 打开设置界面；支持直接设置：`/config thinking=false`（≥v2.1.181）。别名: `/settings` |
 | `/permissions` | 内置 | 管理工具权限规则（allow/ask/deny）。别名: `/allowed-tools` |
 | `/memory` | 内置 | 编辑 CLAUDE.md 记忆文件，管理自动记忆 |
 | `/add-dir <path>` | 内置 | 添加额外工作目录 |
@@ -78,7 +78,7 @@
 | `/skills` | 内置 | 列出可用 skill（`t` 按 token 排序） |
 | `/hooks` | 内置 | 查看 hook 配置 |
 | `/ide` | 内置 | 管理 IDE 集成状态 |
-| `/plugin` | 内置 | 管理插件 |
+| `/plugin [list\|install\|enable\|disable]` | 内置 | 管理插件；`list` 内联列出（支持 `--enabled`/`--disabled` 筛选） |
 | `/reload-skills` | 内置 | 不重启重载 skill 目录（≥v2.1.152） |
 | `/reload-plugins` | 内置 | 不重启重载插件 |
 | `/update-config` | Bundled Skill | 直接编辑 settings.json，管理权限和环境变量 |
@@ -206,10 +206,10 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 
 | 分类 | 数量 |
 |---|---|
-| 硬编码内置命令 | ~70 |
+| 硬编码内置命令 | ~82 |
 | Bundled Skill | ~12 |
 | Bundled Workflow | 1 |
-| **合计** | **~83** |
+| **合计** | **~95** |
 
 ## 命令发布时间线
 
@@ -227,4 +227,4 @@ MISC      /btw /sandbox /powerup /stickers /radio /passes /privacy-settings /upg
 | 2026.02 (v2.1.63) | **`/batch`** **`/simplify`** |
 | 2026.04 (v2.1.108+) | `/recap` **`/fewer-permission-prompts`** `/ultrareview` |
 | 2026.05 (v2.1.139+) | **`/goal`** `/scroll-speed` **`/run`** **`/verify`** **`/code-review`** `/reload-skills` **`/workflows`** |
-| 2026.06 (v2.1.160+) | `/effort`（新增 `ultracode` 级别）、**`/fork`**（独立命令）、**`/cd`**（移动工作目录）、**`/advisor`**（顾问模型，v2.1.170 支持 `fable`）、`/stats` `/cost` `/bg` `/proactive` 等别名 |
+| 2026.06 (v2.1.160+) | `/effort`（新增 `ultracode` 级别）、**`/fork`**（独立命令）、**`/cd`**（移动工作目录）、**`/advisor`**（顾问模型，v2.1.170 支持 `fable`）、**`/config key=value`**（直接设设置，v2.1.181）、`/stats` `/cost` `/bg` `/proactive` 等别名 |
